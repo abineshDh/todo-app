@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simple Todo List</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <h2>Todo List</h2>
+
+  <!-- Add Task Form -->
+  <form action="/" method="POST" name="todo_form">
+    <div class="todo_form"> 
+      <input type="text" name="task" id="input_task" placeholder="Enter Task" required>
+      <button type="submit" name="submit" id="submit_btn">+</button>
+    </div>
+  </form>
+
+  <!-- Task List -->
+  <div class="tasks_container">
+    <ul>
+      {% for task in todo_tasks %}
+      <li>
+        <div class="input_container">
+          <input type="checkbox" class="task_checkbox">
+          <span class="task_text">{{ task }}</span>
+
+          <!-- Remove task form -->
+          <form action="/remove" method="POST" class="inline_form">
+            <input type="hidden" name="single_task" value="{{ task }}">
+            <button type="submit" class="remove_single_btn">Remove</button>
+          </form>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <script>
+    const checkboxes = document.querySelectorAll('.task_checkbox');
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function () {
+        const taskText = this.nextElementSibling;
+        if (this.checked) {
+          taskText.classList.add('completed');
+        } else {
+          taskText.classList.remove('completed');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
